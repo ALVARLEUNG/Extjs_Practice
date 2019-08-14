@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="../resources/css/ext-all.css" rel="stylesheet" type="text/css"/>
+    <script src="../adapter/ext/ext-base.js" type="text/javascript"></script>
+    <script src="../ext-all.js" type="text/javascript"></script>
+    <Script>
+        Ext.onReady(function () {
+            Person = Ext.extend(Ext.util.Observable, {
+                constructor: function(config) {
+                    this.name = config.name;
+                    this.addEvents('walk');
+                    Person.superclass.constructor.call(this, config);
+                },
+                info: function (action) {
+                    return this.name + ' is ' + action + 'ing';
+                }
+            });
+
+            var person = new Person({name: 'Jack'});
+            person.on('walk', function() {
+                Ext.Msg.alert('Walking Man', person.name + ' is walking on the moon.');
+            });
+
+            Ext.get('walkingMan').on('click', function () {
+                person.fireEvent('walk')
+            });
+            }
+        )
+    </Script>
+</head>
+<body>
+<button id="walkingMan">click</button>
+</body>
+</html>

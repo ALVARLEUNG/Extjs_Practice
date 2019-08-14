@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>TablePanelExample</title>
+    <link href="../resources/css/ext-all.css" rel="stylesheet" type="text/css"/>
+    <script src="../adapter/ext/ext-base.js" type="text/javascript"></script>
+    <script src="../ext-all.js" type="text/javascript"></script>
+    <script>
+        Ext.onReady(function () {
+            var tabPanel = new Ext.TabPanel({
+                renderTo: document.body,
+                height: 150
+            });
+            tabPanel.add({
+                title: 'Tom',
+                html: 'Tom Cat'
+            });
+            tabPanel.add({
+                title: 'Jerry',
+                html: 'Jerry Mouse'
+            });
+            tabPanel.activate(0);
+        })
+    </script>
+</head>
+<body>
+
+</body>
+</html>
