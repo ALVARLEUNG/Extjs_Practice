@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>BingSearch</title>
+    <link href="../resources/css/ext-all.css" rel="stylesheet" type="text/css"/>
+    <script src="../adapter/ext/ext-base.js" type="text/javascript"></script>
+    <script src="../ext-all.js" type="text/javascript"></script>
+    <script>
+        Ext.onReady(function () {
+            var BingSearch = new Ext.Container({
+                renderTo: 'bingSearchItem',
+                layout: 'column',
+                style: 'margin-left: 400px;margin-top:200px',
+                layoutConfig: {
+                    columns: 2
+                },
+                items: [{
+                    column: 1,
+                    autoEl: {
+                        tag: 'img',
+                        src: '../image/bing.png'
+                    }
+                }, {
+                    xtype: 'tabpanel',
+                    id: 'searchBox',
+                    column: 1,
+                    renderTo: 'bingSearchItem',
+                    width: 400,
+                    activeTab: 0,
+                    items: [{
+                        layout: 'column',
+                        layoutConfig: {
+                            columns: 2
+                        },
+                        title: '国内版',
+                        items: [{
+                            column: 1,
+                            xtype: 'field',
+                            style: 'border:0',
+                            width: 360,
+                            height: 40
+                        }, {
+                            column: 1,
+                            xtype: 'button',
+                            icon: '../image/search.png',
+                            scale: 'large'
+                        }]
+                    }, {
+                        layout: 'column',
+                        layoutConfig: {
+                            columns: 2
+                        },
+                        title: '国际版',
+                        items: [{
+                            column: 1,
+                            xtype: 'field',
+                            style: 'border:0',
+                            width: 360,
+                            height: 40
+                        }, {
+                            column: 1,
+                            xtype: 'button',
+                            icon: '../image/search.png',
+                            scale: 'large'
+                        }]
+                    }]
+                }]
+            });
+        })
+    </script>
+</head>
+<body style="background-image: url(../image/background.jpg)">
+<div id="bingSearchItem"></div>
+</body>
+<style>
+    #searchBox ul {
+        background: transparent;
+        border: none;
+    }
+
+    #searchBox div {
+        background: transparent;
+        border: none;
+    }
+
+    #searchBox li {
+        background-color: white;
+    }
+
+    .x-btn button {
+        background-color: white;
+        color: white;
+    }
+
+    .x-btn-icon .x-btn-large .x-btn-text {
+        height: 41px;
+        width: 38px;
+        margin-left: -4px;
+        margin-top: -6px;
+    }
+</style>
+</html>
