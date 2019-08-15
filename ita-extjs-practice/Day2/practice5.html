@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>practice5</title>
+    <link href="../../resources/css/ext-all.css" rel="stylesheet" type="text/css"/>
+    <script src="../../adapter/ext/ext-base.js" type="text/javascript"></script>
+    <script src="../../ext-all.js" type="text/javascript"></script>
+    <script>
+        Ext.onReady(function () {
+
+            var checkBox1 = new Ext.form.Checkbox({
+                boxLabel: 'BMW',
+                checked: true
+            })
+            var checkBox2 = new Ext.form.Checkbox({
+                boxLabel: 'Audi',
+                checked: true
+            })
+
+            var radio1 = new Ext.form.Radio({
+                name: 'Car',
+                boxLabel: 'BMW',
+            })
+
+            var radio2 = new Ext.form.Radio({
+                name: 'Car',
+                boxLabel: 'Audi',
+            })
+
+            var form = new Ext.form.FormPanel({
+                title: 'Super Cool',
+                fileUpload: true,
+                renderTo: 'form',
+                width: 500,
+                frame: true,
+                items: [{
+                    xtype: 'textfield',
+                    fieldLabel: 'file',
+                    inputType: 'file'
+                }, {
+                    xtype: 'fieldset',
+                    title: 'Car',
+                    items: [checkBox1, checkBox2]
+                }, {
+                    xtype: 'fieldset',
+                    title: 'Car',
+                    items: [radio1, radio2]
+                }],
+                renderTo: 'form'
+            });
+        })
+    </script>
+</head>
+<body>
+<div id="form"></div>
+</body>
+</html>

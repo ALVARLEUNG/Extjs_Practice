@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>practice9</title>
+    <link href="../../resources/css/ext-all.css" rel="stylesheet" type="text/css"/>
+    <script src="../../adapter/ext/ext-base.js" type="text/javascript"></script>
+    <script src="../../ext-all.js" type="text/javascript"></script>
+    <script>
+        Ext.onReady(function () {
+
+            var navHandler = function (direction) {
+                var cardLayout = Ext.getCmp('cardLayout').layout;
+                var next = Ext.getCmp('move-next');
+                var pre = Ext.getCmp('move-prev');
+                var activeId = cardLayout.activeItem.id;
+
+                if (activeId == 'card-0') {
+                    if (direction == 1) {
+                        cardLayout.setActiveItem(1);
+                        pre.setDisabled(false);
+                    }
+                } else if (activeId == 'card-1') {
+                    if (direction == -1) {
+                        cardLayout.setActiveItem(0);
+                        pre.setDisabled(true);
+                    } else {
+                        cardLayout.setActiveItem(2);
+                        pre.setDisabled(false);
+                        next.setDisabled(true);
+                    }
+                } else if (activeId == 'card-2') {
+                    if (direction == -1) {
+                        cardLayout.setActiveItem(1);
+                        next.setDisabled(false);
+                    }
+                }
+            };
+
+            var card = new Ext.Panel({
+                id: 'cardLayout',
+                title: 'Card Layout',
+                layout: 'card',
+                activeItem: 0,
+                bodyStyle: 'padding:15px',
+                defaults: {
+                    border: false
+                },
+                bbar: [
+                    {
+                        id: 'move-prev',
+                        text: 'Back',
+                        handler: navHandler.createDelegate(this, [-1]),
+                        disabled: true
+                    },
+                    '->', {
+                        id: 'move-next',
+                        text: 'Next',
+                        handler: navHandler.createDelegate(this, [1])
+                    }
+                ],
+                items: [{
+                    id: 'card-0',
+                    html: '<h1>card-0</h1>'
+                }, {
+                    id: 'card-1',
+                    html: '<h1>card-1</h1>'
+                }, {
+                    id: 'card-2',
+                    html: '<h1>card-2</h1>'
+                }]
+            });
+
+            var mainPanel = new Ext.Panel({
+                title: 'Accordion Layout',
+                renderTo: 'layout',
+                layout: 'accordion',
+                defaults: {
+                    bodyStyle: 'padding:15px'
+                },
+                layoutConfig: {
+                    titleCollapse: false,
+                    animate: true,
+                    activeOnTop: true
+                },
+                items: [card]
+            });
+        })
+    </script>
+</head>
+<body>
+<div id="layout"></div>
+</body>
+</html>

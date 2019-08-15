@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>practice2</title>
+    <link href="../../resources/css/ext-all.css" rel="stylesheet" type="text/css"/>
+    <script src="../../adapter/ext/ext-base.js" type="text/javascript"></script>
+    <script src="../../ext-all.js" type="text/javascript"></script>
+    <script>
+        Ext.onReady(function () {
+            Ext.QuickTips.init();
+            var qtip = new Ext.form.Field({
+                fieldLabel: 'qtip',
+                msgTarget: 'qtip'
+            });
+            var title = new Ext.form.Field({
+                fieldLabel: 'title',
+                msgTarget: 'title'
+            });
+            var side = new Ext.form.Field({
+                fieldLabel: 'side',
+                msgTarget: 'side'
+            });
+            var under = new Ext.form.Field({
+                fieldLabel: 'under',
+                msgTarget: 'under'
+            });
+            var elementTips = new Ext.form.Field({
+                fieldLabel: 'elementTips',
+                msgTarget: 'elementTips'
+            })
+
+            var submitButton = new Ext.Button({
+                text: 'submit',
+                listeners: {
+                    'click': function (btn, form) {
+                        qtip.markInvalid('field is required!');
+                        title.markInvalid('field is required!');
+                        side.markInvalid('field is required!');
+                        under.markInvalid('field is required!');
+                        elementTips.markInvalid('field is required!');
+                    }
+                }
+            })
+
+            var form = new Ext.form.FormPanel({
+                id: 'formPanel',
+                title: 'form',
+                frame: true,
+                html: '<div id="elementTips"></div>',
+                items: [qtip, title, side, under, elementTips],
+                renderTo: 'form',
+                width: 500,
+                buttons: [submitButton]
+            });
+        })
+    </script>
+</head>
+<body>
+<div id="form"></div>
+
+</body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>practice4</title>
+    <link href="../../resources/css/ext-all.css" rel="stylesheet" type="text/css"/>
+    <script src="../../adapter/ext/ext-base.js" type="text/javascript"></script>
+    <script src="../../ext-all.js" type="text/javascript"></script>
+    <script>
+        Ext.onReady(function () {
+
+            var provinceStore = new Ext.data.ArrayStore({
+                fields: ['province', 'text'],
+                data: [['广东', '广东'], ['广西', '广西']]
+            })
+
+            var cityStore = new Ext.data.ArrayStore({
+                fields: ['city', 'text']
+            })
+
+            var provinceComboBox = new Ext.form.ComboBox({
+                id: 'province',
+                fieldLabel: 'province',
+                emptyText: 'Choose your province',
+                mode: 'local',
+                store: provinceStore,
+                valueField: 'province',
+                triggerAction: 'all',
+                displayField: 'text',
+                editable: false
+            })
+
+            var cityComboBox = new Ext.form.ComboBox({
+                id: 'city',
+                fieldLabel: 'city',
+                emptyText: 'Choose your city',
+                triggerAction: 'all',
+                mode: 'local',
+                store: cityStore,
+                valueField: 'city',
+                displayField: 'text',
+                editable: false
+            })
+
+            var form = new Ext.form.FormPanel({
+                title: 'Super Cool',
+                width: 500,
+                frame: true,
+                items: [provinceComboBox, cityComboBox],
+                renderTo: 'form'
+            });
+
+            provinceComboBox.on('select', function (comboBox) {
+                    var province = comboBox.getValue();
+                    Ext.getCmp('city').reset();
+                    if (province == '广东') {
+                        cityStore.loadData([['广州', '广州'], ['珠海', '珠海']]);
+                    } else if (province == '广西') {
+                        cityStore.loadData([['桂林', '桂林'], ['玉林', '玉林']]);
+                    }
+            });
+        })
+    </script>
+</head>
+<body>
+<div id="form"></div>
+</body>
+</html>

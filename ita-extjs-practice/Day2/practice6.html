@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>practice6</title>
+    <link href="../../resources/css/ext-all.css" rel="stylesheet" type="text/css"/>
+    <script src="../../adapter/ext/ext-base.js" type="text/javascript"></script>
+    <script src="../../ext-all.js" type="text/javascript"></script>
+    <script>
+        Ext.onReady(function (){
+            var reader = new Ext.data.JsonReader({}, [
+                {name: 'name', type: 'string'},
+                {name: 'age', type: 'int'},
+                {name: 'birthday', type: 'date', dateFormat: 'Y-m-dTH:i:s'},
+                {name: 'weight', type: 'float'}
+            ]);
+
+            var text = new Ext.form.TextField({
+                id: 'name',
+                width: 200,
+                fieldLabel: '文本',
+            });
+
+            var number = new Ext.form.TextField({
+                id: 'age',
+                width: 200,
+                fieldLabel: '数字',
+            });
+
+            var date = new Ext.form.DateField({
+                id: 'birthday',
+                width: 200,
+                fieldLabel: '日期',
+                format: 'Y-m-d',
+            });
+
+            var comboBox = new Ext.form.ComboBox({
+                id: 'weight',
+                fieldLabel: '下拉',
+                triggerAction: 'all',
+                editable: false
+            });
+
+            var form = new Ext.form.FormPanel({
+                id: 'testForm',
+                title: 'Super Cool',
+                labelAlign: 'center',
+                reader: reader,
+                width: 500,
+                frame: true,
+                items: [text, number, date, comboBox],
+                buttons: [{
+                    text: 'submit',
+                    listeners: {
+                        'click': function (btn, form) {
+                            Ext.getCmp('testForm').getForm().load({url: 'jason_reader.txt'})
+                        }
+                    }
+                }],
+                renderTo: 'form'
+            });
+        })
+    </script>
+</head>
+<body>
+<div id="form"></div>
+</body>
+</html>

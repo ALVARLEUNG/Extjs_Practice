@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>practice</title>
+    <link href="../../resources/css/ext-all.css" rel="stylesheet" type="text/css"/>
+    <script src="../../adapter/ext/ext-base.js" type="text/javascript"></script>
+    <script src="../../ext-all.js" type="text/javascript"></script>
+    <script>
+        Ext.onReady(function () {
+            var buttonSubmit = new Ext.Button({
+                    text: 'submit',
+                    listeners: {
+                        'click': function (btn, form) {
+                            var name = Ext.getCmp('name').getValue();
+                            if (name !== '') {
+                                Ext.Msg.alert('Hello, ' + name);
+                            } else {
+                                Ext.getCmp('name').markInvalid();
+                            }
+                        }
+                    }
+                })
+            var cancelButton = new Ext.Button({
+                text: 'reset',
+                listeners: {
+                    'click': function (btn, form) {
+                        Ext.getCmp('name').reset();
+                    }
+                }
+            })
+
+            var form = new Ext.form.FormPanel({
+                defaultType: 'textfield',
+                labelAlign: 'center',
+                title: 'super cool form',
+                labelWidth: 40,
+                frame: true,
+                width: 300,
+                items: [{
+                    id: 'name',
+                    fieldLabel: 'names'
+                }],
+                buttons: [buttonSubmit, cancelButton]
+            });
+            form.render("form");
+        })
+    </script>
+</head>
+<body>
+<div id="form"></div>
+</body>
+</html>

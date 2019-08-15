@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>practice3</title>
+    <link href="../../resources/css/ext-all.css" rel="stylesheet" type="text/css"/>
+    <script src="../../adapter/ext/ext-base.js" type="text/javascript"></script>
+    <script src="../../ext-all.js" type="text/javascript"></script>
+    <script>
+        Ext.onReady(function () {
+            Ext.QuickTips.init();
+
+            var textField = new Ext.form.TextField({
+                id: 'name',
+                width: 200,
+                fieldLabel: 'name',
+                emptyText: 'please input your name',
+                maxLength: 10,
+                minLength: 3
+            });
+
+            var textArea = new Ext.form.TextArea({
+                id: 'habit',
+                width: 200,
+                grow: true,
+                preventScrollbars: true,
+                fieldLabel: 'Habit',
+                emptyText: 'please write down what’s your like to do',
+                maxLength: 200,
+                minLength: 1,
+            });
+
+            var htmlEditor = new Ext.form.HtmlEditor({
+                id: 'htmlEditor',
+                fieldLabel: 'html editor',
+            });
+
+            var dateField = new Ext.form.DateField({
+                id: 'birthday',
+                width: 200,
+                fieldLabel: 'birthday',
+                format: 'Y-m-d',
+                emptyText: 'please select your birthday',
+            });
+
+            var timeField = new Ext.form.TimeField({
+                id: 'time',
+                width: 200,
+                fieldLabel: 'time',
+                emptyText: 'please select time',
+            });
+
+            var hiddenField = new Ext.form.Hidden({
+                id: 'hiddenField',
+                name: 'hiddenId'
+            });
+            hiddenField.setValue('hiddenField');
+
+
+            var form = new Ext.form.FormPanel({
+                id: 'dataForm',
+                defaultType: 'textfield',
+                labelAlign: 'center',
+                title: 'super cool form',
+                labelWidth: 40,
+                frame: true,
+                width: 500,
+                items: [textField, dateField, timeField, textArea, htmlEditor, hiddenField],
+                buttons: [{
+                    text: 'submit',
+                    listeners: {
+                        'click': function (btn, form) {
+                            var name = Ext.getCmp('name').getValue();
+                            var birthday = Ext.getCmp('birthday').getValue();
+                            var time = Ext.getCmp('time').getValue();
+                            var habit = Ext.getCmp('habit').getValue();
+                            var hiddenField = Ext.getCmp('hiddenField').getValue();
+                            Ext.Msg.alert(`name:` + name + `,\n birthday:` + birthday + `,\n habit:` + habit + `,\n time:` + time + `,\n hiddenField:` + hiddenField);
+                        }
+                    }
+                }]
+            });
+            form.render("form");
+        })
+    </script>
+</head>
+<body>
+<div id="form"></div>
+</body>
+</html>
