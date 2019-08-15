@@ -1751,7 +1751,6 @@ Ext.lib.Ajax = function() {
                    'Msxml2.XMLHTTP'],
         CONTENTTYPE = 'Content-Type';
 
-		var isLocal = /^(?:about|app|app\-storage|.+\-extension|file|res|widget):.+/.test(location.href);
     // private
     function setHeader(o) {
         var conn = o.conn,
@@ -1853,10 +1852,6 @@ Ext.lib.Ajax = function() {
         }
         catch(e) {
             httpStatus = 13030;
-        }
-        
-        if(isLocal){
-           httpStatus = 200;
         }
 
         if ((httpStatus >= 200 && httpStatus < 300) || (Ext.isIE && httpStatus == 1223)) {
@@ -1982,11 +1977,7 @@ Ext.lib.Ajax = function() {
         var http;
 
         try {
-        	if(window.ActiveXObject && isLocal){
-        		http = window.ActiveXObject('Microsoft.XMLHTTP');
-        	}else{
             http = new XMLHttpRequest();
-          }
         } catch(e) {
             for (var i = 0; i < activeX.length; ++i) {
                 try {

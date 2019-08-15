@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="../../resources/css/ext-all.css" rel="stylesheet" type="text/css"/>
+    <script src="../../adapter/ext/ext-base.js" type="text/javascript"></script>
+    <script src="../../ext-all.js" type="text/javascript"></script>
+    <script>
+        Ext.onReady(function () {
+            var container = new Ext.Container({
+                renderTo: 'google',
+                style: 'margin-left:400px;',
+                layout: 'table',
+                layoutConfig: {
+                    columns: 2
+                },
+                items: [{
+                    colspan: 2,
+                    xtype: 'box',
+                    height: 100,
+                    autoEl: {
+                        tag: 'img',
+                        src: '../../image/google.png'
+                    }
+                }, {
+                    colspan: 2,
+                    layout: 'hbox',
+                    xtype: 'field',
+                    width: 1000,
+                    height: 50
+                }, {
+                    colspan: 2,
+                    layout: 'hbox',
+                    layoutConfig: {pack: 'center'},
+                    xtype: 'container',
+                    style: 'margin-top: 20px; margin-right: 10px',
+                    items: [{
+                        xtype: 'button',
+                        width: 80,
+                        height: 40,
+                        text: 'Google搜索'
+                    }, {
+                        xtype: 'button',
+                        width: 80,
+                        height: 40,
+                        text: '手气不错'
+                    }]
+                }]
+            })
+        })
+    </script>
+</head>
+<body>
+<div id="google"></div>
+</body>
+<style>
+    td {
+        text-align: center;
+    }
+</style>
+</html>
+
