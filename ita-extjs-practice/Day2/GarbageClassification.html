@@ -10,8 +10,8 @@
         Ext.onReady(function () {
             var answerQ1 = '';
             var answerQ2 = [];
-            var questionOne = new Ext.form.RadioGroup({
-                id: 'question1',
+            var AnswerQuestionOne = new Ext.form.RadioGroup({
+                id: 'AnswerQuestionOne',
                 columns: 1,
                 items: [
                     {boxLabel: '湿垃圾', inputValue: '湿垃圾', name: 'question1'},
@@ -20,28 +20,59 @@
                     {boxLabel: '可回收物', inputValue: '可回收物', name: 'question1'}
                 ]
             });
-            questionOne.on('change', function (rdgroup, checked) {
-                answerQ1 =  checked.getRawValue();
-                AnswerQ1.add({xtype: 'radio', boxLabel: checked.getRawValue(), checked: true})
-            });
 
-            var questionTwo = new Ext.form.CheckboxGroup({
-                id: 'question2',
+            var questionOne = new Ext.form.RadioGroup({
+                id: 'question1',
                 columns: 1,
                 items: [
-                    {boxLabel: '把粑粑用废报纸包好带回家冲掉', inputValue: '把粑粑用废报纸包好带回家冲掉'},
-                    {boxLabel: '受污染的报纸按有害垃圾处理', inputValue: '受污染的报纸按有害垃圾处理'},
-                    {boxLabel: '没受污染的报纸按可回垃圾处理', inputValue: '没受污染的报纸按可回垃圾处理'},
-                    {boxLabel: '受污染的报纸浸水后当湿垃圾处理', inputValue: '受污染的报纸浸水后当湿垃圾处理'}
-                ]
-            });
-            questionTwo.on('change', function (cbgroup, checked) {
-                for (var i = 0; i < checked.length; i++) {
-                    if (!answerQ2.includes(checked[i].getRawValue())) {
-                        answerQ2.push(checked[i].getRawValue());
-                        AnswerQ2.add({xtype: 'checkbox', boxLabel: checked[i].getRawValue(), checked: true})
+                    {boxLabel: '湿垃圾', inputValue: '湿垃圾', name: 'question1'},
+                    {boxLabel: '干垃圾', inputValue: '干垃圾', name: 'question1'},
+                    {boxLabel: '有害垃圾', inputValue: '有害垃圾', name: 'question1'},
+                    {boxLabel: '可回收物', inputValue: '可回收物', name: 'question1'}
+                ],
+                listeners: {
+                    'change': function (cmp, checked) {
+                        answerQ1 = checked.inputValue;
+                        Ext.getCmp('AnswerQuestionOne').setValue(checked.inputValue);
                     }
                 }
+            });
+            var questionTwo = new Ext.form.CheckboxGroup({
+                id: 'questionTwo',
+                name: 'questionTwo',
+                columns: 1,
+                items: [
+                    {boxLabel: '把粑粑用废报纸包好带回家冲掉', name: 'o1', inputValue: '把粑粑用废报纸包好带回家冲掉'},
+                    {boxLabel: '受污染的报纸按有害垃圾处理', name: 'o2', inputValue: '受污染的报纸按有害垃圾处理'},
+                    {boxLabel: '没受污染的报纸按可回垃圾处理', name: 'o3', inputValue: '没受污染的报纸按可回垃圾处理'},
+                    {boxLabel: '受污染的报纸浸水后当湿垃圾处理', name: 'o4', inputValue: '受污染的报纸浸水后当湿垃圾处理'}
+                ],
+                listeners: {
+                    'change': function (cmp, checkedboxs) {
+                        for (cbox of cmp.items.items) {
+                            if (cbox.checked == true) {
+                                AnswerQuestionTwo.setValue(cbox.name, true);
+                                answerQ2.push(cbox.name);
+                            } else {
+                                AnswerQuestionTwo.setValue(cbox.name, false);
+                                answerQ2.pop(answerQ2.indexOf(cbox.name));
+                            }
+                        }
+                    }
+                }
+            });
+
+
+            var AnswerQuestionTwo = new Ext.form.CheckboxGroup({
+                id: 'AnswerQuestionTwo',
+                name: 'AnswerQuestionTwo',
+                columns: 1,
+                items: [
+                    {boxLabel: '把粑粑用废报纸包好带回家冲掉', name: 'o1', inputValue: '把粑粑用废报纸包好带回家冲掉'},
+                    {boxLabel: '受污染的报纸按有害垃圾处理', name: 'o2', inputValue: '受污染的报纸按有害垃圾处理'},
+                    {boxLabel: '没受污染的报纸按可回垃圾处理', name: 'o3', inputValue: '没受污染的报纸按可回垃圾处理'},
+                    {boxLabel: '受污染的报纸浸水后当湿垃圾处理', name: 'o4', inputValue: '受污染的报纸浸水后当湿垃圾处理'}
+                ]
             });
 
             var submitButton = new Ext.Button({
@@ -76,11 +107,6 @@
                         cardLayout.setActiveItem(2);
                         pre.setDisabled(false);
                         next.setDisabled(true);
-                        if (answerQ1 == '' && answerQ2.length == 0) {
-                            submitButton.setDisabled(true)
-                        } else {
-                            submitButton.setDisabled(false)
-                        }
                     }
                 } else if (activeId == 'card-2') {
                     if (direction == -1) {
@@ -105,13 +131,15 @@
             var AnswerQ1 = new Ext.form.FormPanel({
                 title: 'Q1: 番茄属于那种垃圾？（单选）',
                 width: 500,
-                frame: true
+                frame: true,
+                items: [AnswerQuestionOne]
             });
 
             var AnswerQ2 = new Ext.form.FormPanel({
                 title: 'Q2: 王大叔出门后，那些是正确处理狗粑粑的方法？（多选）',
                 width: 500,
-                frame: true
+                frame: true,
+                items: [AnswerQuestionTwo]
             });
 
             var Answer = new Ext.Panel({
