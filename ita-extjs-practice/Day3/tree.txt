@@ -1,0 +1,4 @@
+[
+{text: 'ShengZhen', children: [ {text: 'LuoHu', leaf: true}]},
+{text: 'GuangZhou', children: [ {text: 'TianHe', leaf: true}] }
+]

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>practice3</title>
+    <link href="../../resources/css/ext-all.css" rel="stylesheet" type="text/css"/>
+    <script src="../../adapter/ext/ext-base.js" type="text/javascript"></script>
+    <script src="../../ext-all.js" type="text/javascript"></script>
+    <script>
+        Ext.onReady(function () {
+            var table = new Ext.Panel({
+                title: 'Table Layout',
+                renderTo: 'tableLayout',
+                layout:'table',
+                defaults: {
+                    // applied to each contained panel
+                    bodyStyle:'padding:20px'
+                },
+                layoutConfig: {
+                    columns: 3
+                },
+                items: [{
+                    html: '<p>Cell A content</p>',
+                    rowspan: 2
+                },{
+                    html: '<p>Cell B content</p>',
+                    colspan: 2
+                },{
+                    html: '<p>Cell C content</p>',
+                    cellCls: 'highlight'
+                },{
+                    html: '<p>Cell D content</p>'
+                }]
+            });
+
+            var column = new Ext.Panel({
+                title: 'Column Layout',
+                renderTo: 'column',
+                layout:'column',
+                items: [{
+                    title: 'Column 1',
+                    columnWidth: .25
+                },{
+                    title: 'Column 2',
+                    columnWidth: .6
+                },{
+                    title: 'Column 3',
+                    columnWidth: .15
+                }]
+            });
+
+        })
+    </script>
+</head>
+<body>
+<div id="tableLayout"></div>
+<div id="columnLayout"></div>
+</body>
+</html>

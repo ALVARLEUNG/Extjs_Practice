@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>practice1</title>
+    <link href="../../resources/css/ext-all.css" rel="stylesheet" type="text/css"/>
+    <script src="../../adapter/ext/ext-base.js" type="text/javascript"></script>
+    <script src="../../ext-all.js" type="text/javascript"></script>
+    <script>
+        Ext.onReady(function () {
+            var viewport = new Ext.Viewport({
+                renderTo: 'anchorDemo',
+                layout:'anchor',
+                anchorSize: {width:800, height:600},
+                items:[{
+                    title:'Item 1',
+                    html:'Content 1',
+                    width:800,
+                    anchor:'right 20%'
+                },{
+                    title:'Item 2',
+                    html:'Content 2',
+                    width:300,
+                    anchor:'50% 30%'
+                }]
+            });
+        })
+    </script>
+</head>
+<body>
+<div id="anchorDemo"></div>
+</body>
+</html>

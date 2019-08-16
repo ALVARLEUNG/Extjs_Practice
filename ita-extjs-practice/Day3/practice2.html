@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>practice</title>
+    <link href="../../resources/css/ext-all.css" rel="stylesheet" type="text/css"/>
+    <script src="../../adapter/ext/ext-base.js" type="text/javascript"></script>
+    <script src="../../ext-all.js" type="text/javascript"></script>
+    <script>
+        Ext.onReady(function () {
+            Ext.QuickTips.init();
+            var form = new Ext.form.FormPanel({
+                renderTo: 'formLayout',
+                title: 'Form Layout',
+                bodyStyle: 'padding:15px',
+                width: 350,
+                defaultType: 'textfield',
+                defaults: {
+                    width: 230,
+                    msgTarget: 'side'
+                },
+                items: [{
+                    fieldLabel: 'First Name',
+                    name: 'first',
+                    allowBlank: false,
+                    labelSeparator: ':'
+                },{
+                    fieldLabel: 'Last Name',
+                    name: 'last'
+                },{
+                    fieldLabel: 'Email',
+                    name: 'email',
+                    vtype:'email'
+                }, {
+                    xtype: 'textarea',
+                    hideLabel: true,
+                    name: 'msg',
+                    anchor: '100% -53'
+                }
+                ],
+                buttons: [
+                    {text: 'Save'},
+                    {text: 'Cancel'}
+                ],
+                layoutConfig: {
+                    labelSeparator: '~'
+                },
+
+                hideLabels: false,
+                labelAlign: 'left',
+                labelSeparator: '>>',
+                labelWidth: 65,
+                labelPad: 8
+            });
+        })
+    </script>
+</head>
+<body>
+<div id="formLayout"></div>
+</body>
+</html>

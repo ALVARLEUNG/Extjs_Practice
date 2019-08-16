@@ -8,8 +8,9 @@
     <script src="../../ext-all.js" type="text/javascript"></script>
     <script>
         Ext.onReady(function () {
-            var answerQ1 = '';
-            var answerQ2 = [];
+            // var answerQ1 = '';
+            // var answerQ2 = [];
+
             var AnswerQuestionOne = new Ext.form.RadioGroup({
                 id: 'AnswerQuestionOne',
                 columns: 1,
@@ -20,7 +21,6 @@
                     {boxLabel: '可回收物', inputValue: '可回收物', name: 'question1'}
                 ]
             });
-
             var questionOne = new Ext.form.RadioGroup({
                 id: 'question1',
                 columns: 1,
@@ -37,6 +37,18 @@
                     }
                 }
             });
+
+            var AnswerQuestionTwo = new Ext.form.CheckboxGroup({
+                id: 'AnswerQuestionTwo',
+                name: 'AnswerQuestionTwo',
+                columns: 1,
+                items: [
+                    {boxLabel: '把粑粑用废报纸包好带回家冲掉', name: 'o1', inputValue: '把粑粑用废报纸包好带回家冲掉'},
+                    {boxLabel: '受污染的报纸按有害垃圾处理', name: 'o2', inputValue: '受污染的报纸按有害垃圾处理'},
+                    {boxLabel: '没受污染的报纸按可回垃圾处理', name: 'o3', inputValue: '没受污染的报纸按可回垃圾处理'},
+                    {boxLabel: '受污染的报纸浸水后当湿垃圾处理', name: 'o4', inputValue: '受污染的报纸浸水后当湿垃圾处理'}
+                ]
+            });
             var questionTwo = new Ext.form.CheckboxGroup({
                 id: 'questionTwo',
                 name: 'questionTwo',
@@ -52,38 +64,26 @@
                         for (cbox of cmp.items.items) {
                             if (cbox.checked == true) {
                                 AnswerQuestionTwo.setValue(cbox.name, true);
-                                answerQ2.push(cbox.name);
+                                // answerQ2.push(cbox.name);
                             } else {
                                 AnswerQuestionTwo.setValue(cbox.name, false);
-                                answerQ2.pop(answerQ2.indexOf(cbox.name));
+                                // answerQ2.pop(answerQ2.indexOf(cbox.name));
                             }
                         }
                     }
                 }
             });
 
-
-            var AnswerQuestionTwo = new Ext.form.CheckboxGroup({
-                id: 'AnswerQuestionTwo',
-                name: 'AnswerQuestionTwo',
-                columns: 1,
-                items: [
-                    {boxLabel: '把粑粑用废报纸包好带回家冲掉', name: 'o1', inputValue: '把粑粑用废报纸包好带回家冲掉'},
-                    {boxLabel: '受污染的报纸按有害垃圾处理', name: 'o2', inputValue: '受污染的报纸按有害垃圾处理'},
-                    {boxLabel: '没受污染的报纸按可回垃圾处理', name: 'o3', inputValue: '没受污染的报纸按可回垃圾处理'},
-                    {boxLabel: '受污染的报纸浸水后当湿垃圾处理', name: 'o4', inputValue: '受污染的报纸浸水后当湿垃圾处理'}
-                ]
-            });
-
             var submitButton = new Ext.Button({
                 text: 'submit',
                 listeners: {
                     'click': function (btn, form) {
-                        if (answerQ1 != '' && answerQ2.length != 0) {
-                            Ext.Msg.alert('Congratulation!')
-                        } else {
-                            Ext.Msg.alert('请完成题目!')
-                        }
+                        Ext.Msg.alert('Congratulation!')
+                        // if (answerQ1 != '' && answerQ2.length != 0) {
+                        //     Ext.Msg.alert('Congratulation!')
+                        // } else {
+                        //     Ext.Msg.alert('请完成题目!')
+                        // }
                     }
                 }
             })
@@ -134,7 +134,6 @@
                 frame: true,
                 items: [AnswerQuestionOne]
             });
-
             var AnswerQ2 = new Ext.form.FormPanel({
                 title: 'Q2: 王大叔出门后，那些是正确处理狗粑粑的方法？（多选）',
                 width: 500,
