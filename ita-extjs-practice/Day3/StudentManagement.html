@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>StudentManagement</title>
+    <link href="../../resources/css/ext-all.css" rel="stylesheet" type="text/css"/>
+    <script src="../../adapter/ext/ext-base.js" type="text/javascript"></script>
+    <script src="../../ext-all.js" type="text/javascript"></script>
+    <script>
+        Ext.onReady(function () {
+            Ext.QuickTips.init();
+            let currentNode;
+
+            let addField = new Ext.form.Field({
+                msgTarget: 'qtip'
+            });
+
+            function addNode(node, nodeText) {
+                if (node != undefined) {
+                    switch (node.getDepth()) {
+                        case 0:
+                            node.appendChild(new Ext.tree.TreeNode({text: nodeText}));
+                            break;
+                        case 1:
+                            node.appendChild(new Ext.tree.TreeNode({text: nodeText}));
+                            break;
+                        case 2:
+                            node.parentNode.appendChild(new Ext.tree.TreeNode({text: nodeText}));
+                            break;
+                    }
+                }
+            }
+
+            let addButton = new Ext.Button({
+                text: 'add student',
+                width: 80,
+                listeners: {
+                    'click': function (btn, form) {
+                        let student = addField.getValue();
+                        if (student == '') {
+                            addField.markInvalid('field is required!');
+                        } else {
+                            addNode(currentNode, student);
+                        }
+                    }
+                }
+            });
+
+            let addStudentPanel = new Ext.form.FormPanel({
+                width: 500,
+                items: [addField, addButton]
+            });
+
+            let root = new Ext.tree.TreeNode({text: 'ITA'});
+            let class1 = new Ext.tree.TreeNode({text: 'class1'});
+            let class2 = new Ext.tree.TreeNode({text: 'class2'});
+            let student = new Ext.tree.TreeNode({text: 'student'});
+
+            class1.appendChild(student);
+            root.appendChild(class1);
+            root.appendChild(class2);
+
+
+            let manage_tree = new Ext.tree.TreePanel({
+                title: 'school',
+                width: 500,
+                enableDD: true,
+                root: root,
+                enableDD: true,
+                listeners: {
+                    'click': function (node, e) {
+                        currentNode = node;
+                    },
+                }
+            });
+
+            let treeEditor = new Ext.tree.TreeEditor(manage_tree, {
+                allowBlank: false
+            });
+
+            let student_management = new Ext.Viewport({
+                renderTo: 'student_management',
+                style: 'margin-left: 600px',
+                width: 500,
+                items: [manage_tree, addStudentPanel]
+            })
+        })
+    </script>
+</head>
+<body>
+<div id="student_management"></div>
+</body>
+</html>
