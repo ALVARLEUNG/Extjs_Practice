@@ -9,9 +9,11 @@
     <script>
         Ext.onReady(function () {
             Ext.QuickTips.init();
+            
             let currentNode;
-
             let addField = new Ext.form.Field({
+                column: 1,
+                style: 'margin-top: 10px',
                 msgTarget: 'qtip'
             });
 
@@ -28,27 +30,55 @@
                             node.parentNode.appendChild(new Ext.tree.TreeNode({text: nodeText}));
                             break;
                     }
+                } else {
+                    Ext.Msg.alert('Warning', 'Please select a Tree Node!')
+                }
+            }
+
+            function addItem(addField) {
+                let student = addField.getValue();
+                if (student == '') {
+                    addField.markInvalid('Field is required!');
+                } else {
+                    addNode(currentNode, student);
+                    addField.reset();
+                    Ext.Msg.alert('Congratulation', 'Successfully added ');
+                    addWindow.hide();
                 }
             }
 
             let addButton = new Ext.Button({
                 text: 'add student',
                 width: 80,
+                style: 'margin-top: 10px',
+                column: 1,
                 listeners: {
                     'click': function (btn, form) {
-                        let student = addField.getValue();
-                        if (student == '') {
-                            addField.markInvalid('field is required!');
-                        } else {
-                            addNode(currentNode, student);
-                        }
+                        addItem(addField);
+                    }
+                }
+            });
+
+            let resetButton = new Ext.Button({
+                text: 'reset',
+                width: 80,
+                style: 'margin-top: 10px',
+                column: 1,
+                listeners: {
+                    'click': function (btn, form) {
+                        addField.reset();
                     }
                 }
             });
 
             let addStudentPanel = new Ext.form.FormPanel({
                 width: 500,
-                items: [addField, addButton]
+                height: 50,
+                layout: 'column',
+                layoutConfig: {
+                    columns: 3
+                },
+                items: [addField, addButton, resetButton]
             });
 
             let root = new Ext.tree.TreeNode({text: 'ITA'});
@@ -60,17 +90,76 @@
             root.appendChild(class1);
             root.appendChild(class2);
 
+            let addWindow = new Ext.Window({
+                id: 'add_window',
+                title: 'Add',
+                resizable: true,
+                width: 500,
+                height: 60,
+                modal: true,
+                closable: true,
+                closeAction: 'hide',
+                layout: 'column',
+                layoutConfig: {
+                    columns: 2
+                },
+                items: [{
+                    xtype: 'field',
+                    id: 'window_field',
+                    column: 1,
+                    msgTarget: 'qtip'
+                },{
+                    xtype: 'button',
+                    text: 'add student',
+                    column: 1,
+                    width: 80,
+                    listeners: {
+                        'click': function (btn, form) {
+                            addItem(Ext.getCmp('window_field'));
+                        }
+                    }
+                }]
+            });
+
+            let menu = new Ext.menu.Menu({
+                items: [{
+                    id: 'delete',
+                    text: 'Delete'
+                }, {
+                    id: 'add',
+                    text: 'Add'
+                }],
+                listeners: {
+                    itemclick: function (item) {
+                        switch (item.id) {
+                            case 'delete':
+                                item.parentMenu.contextNode.remove();
+                                break;
+                            case 'add':
+                                addWindow.show();
+                                break;
+                        }
+                    }
+                }
+            });
 
             let manage_tree = new Ext.tree.TreePanel({
-                title: 'school',
+                title: 'School',
                 width: 500,
                 enableDD: true,
                 root: root,
                 enableDD: true,
+                contextMenu: menu,
                 listeners: {
-                    'click': function (node, e) {
+                    'click': function (node, event) {
                         currentNode = node;
                     },
+                    contextmenu: function (node, event) {
+                        node.select();
+                        var treeContextMenu = node.getOwnerTree().contextMenu;
+                        treeContextMenu.contextNode = node;
+                        treeContextMenu.showAt(event.getXY());
+                    }
                 }
             });
 
