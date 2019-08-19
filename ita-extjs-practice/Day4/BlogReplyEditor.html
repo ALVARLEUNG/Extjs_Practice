@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>BlogReplyEditor</title>
+    <link href="../../resources/css/ext-all.css" rel="stylesheet" type="text/css"/>
+    <script src="../../adapter/ext/ext-base.js" type="text/javascript"></script>
+    <script src="../../ext-all.js" type="text/javascript"></script>
+    <script>
+        Ext.onReady(function () {
+            Ext.QuickTips.init();
+
+            let insertItem = new Ext.menu.Item({
+                text: 'Table',
+                listeners: {
+                    click: function () {
+                        if (!Ext.isEmpty(Ext.getCmp('tablePanel'))){
+                            Ext.getCmp('tablePanel').hide();
+                        }
+                        editForm.show();
+                    }
+                }
+            });
+            let editItem = new Ext.menu.Item({
+                text: 'Reset',
+                listeners: {
+                    click: function () {
+                        Ext.getCmp('tablePanel').destroy();
+                        rowField.reset();
+                        columnField.reset();
+                    }
+                }
+            });
+
+            let insertMenu = new Ext.menu.Menu({
+                items: [insertItem]
+            });
+            let editMenu = new Ext.menu.Menu({
+                items: [editItem]
+            });
+
+            let toolbar = new Ext.Toolbar({
+                width: 800,
+                items: [
+                    {text: 'Edit', menu: editMenu},
+                    {xtype: "tbspacer", width: 10},
+                    '-',
+                    {xtype: "tbspacer", width: 10},
+                    {text: 'Insert', menu: insertMenu}
+                ]
+            });
+
+            let progressBar = new Ext.ProgressBar({
+                width: 800,
+                hidden: true
+            });
+
+            let replyButton = new Ext.Button({
+                text: 'reply',
+                width: 50,
+                listeners: {
+                    click: function () {
+                        if (!Ext.isEmpty(Ext.getCmp('tablePanel'))){
+                            progressBar.show();
+                            progressBar.wait({
+                                interval: 200,
+                                duration: 2000,
+                                increment: 10,
+                                scope: this,
+                                fn: function () {
+                                    progressBar.hide();
+                                    Ext.Msg.alert('success', "success!");
+                                }
+                            });
+                            Ext.getCmp('tablePanel').destroy();
+                        }else {
+                            Ext.Msg.alert('warning', "Please input message!");
+                        }
+                    }
+                }
+            });
+
+
+            let rowField = new Ext.form.NumberField({
+                fieldLabel: 'row',
+                emptyText: 'Please input row',
+                target: 'qtip'
+            });
+            let columnField = new Ext.form.NumberField({
+                fieldLabel: 'column',
+                emptyText: 'Please input row',
+                target: 'qtip'
+            });
+
+            function generateTable(row, column) {
+                var table = '<table border = 1 style="margin-left: 200px;margin-top: 100px">';
+                for (let i = 0; i < row; i++) {
+                    table += '<tr>';
+                    for (let j = 0; j < column; j++) {
+                        table += "<td>&nbsp;&nbsp;&nbsp;&nbsp;</td>";
+                    }
+                    table += '</tr>';
+                }
+                table += '</table>';
+                return table;
+            }
+
+            let cancelButton = new Ext.Button({
+                text: 'cancel',
+                width: 50,
+                listeners: {
+                    'click': function () {
+                        rowField.reset();
+                        columnField.reset();
+                        editForm.hide();
+                        if (!Ext.isEmpty(Ext.getCmp('tablePanel'))){
+                            Ext.getCmp('tablePanel').show();
+                        }
+                    }
+                }
+            });
+            let confirmButton = new Ext.Button({
+                text: 'confirm',
+                width: 50,
+                listeners: {
+                    'click': function () {
+                        if (!Ext.isEmpty(rowField.getValue()) && !Ext.isEmpty(columnField.getValue())) {
+                            let table = generateTable(rowField.getValue(), columnField.getValue());
+                            editPanel.add(new Ext.Panel({
+                                id: 'tablePanel',
+                                width: 800,
+                                height: 300,
+                                style: '',
+                                tpl: new Ext.Template([table]),
+                                data: []
+                            }));
+                            editForm.hide();
+                            editPanel.doLayout();
+                            rowField.reset();
+                            columnField.reset();
+                        } else {
+                            rowField.markInvalid('Please input row!');
+                            columnField.markInvalid('Please input column!');
+                        }
+                    }
+                }
+            });
+
+            let editForm = new Ext.FormPanel({
+                title: 'add table',
+                width: 300,
+                hidden: true,
+                style: 'margin-top: 20px; margin-left: 250px',
+                items: [rowField, columnField],
+                buttons: [confirmButton, cancelButton]
+            });
+
+
+            let editPanel = new Ext.Panel({
+                width: 800,
+                height: 300,
+                items: [editForm]
+            });
+
+            let blogViewPort = new Ext.Viewport({
+                renderTo: 'blog',
+                style: 'margin-left: 600px',
+                width: 800,
+                items: [toolbar, editPanel, progressBar, replyButton]
+            })
+        })
+    </script>
+</head>
+<body>
+<div id="blog"></div>
+</body>
+</html>
