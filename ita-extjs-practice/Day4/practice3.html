@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>practice3</title>
+    <link href="../../resources/css/ext-all.css" rel="stylesheet" type="text/css"/>
+    <script src="../../adapter/ext/ext-base.js" type="text/javascript"></script>
+    <script src="../../ext-all.js" type="text/javascript"></script>
+    <script>
+        Ext.onReady(function () {
+            let templatePanel1 = new Ext.Panel({
+                title: 'template panel1',
+                html: '<div id="template"></div>',
+                width: 500,
+                height: 300,
+                renderTo: 'test1'
+            });
+            let templatePanel2 = new Ext.Panel({
+                title: 'template panel2',
+                html: '<div id="template"></div>',
+                width: 500,
+                height: 300,
+                renderTo: 'test2',
+                tpl: new Ext.XTemplate([
+                    '<table>',
+                    '<tpl for="values">',
+                    '<tpl if="name==`ethan`"><tr><td style="color: red">I am {name}</td></tr></tpl>',
+                    '<tpl if="name==`alvar`"><tr><td style="color: blue">I am {name}</td></tr></tpl>',
+                    '</tpl>',
+                    '</table>']),
+                data: [{name: 'ethan'}, {name: 'alvar'}]
+            });
+
+
+            let template = Ext.DomHelper.createTemplate({
+                tag: 'tr', children: [
+                    {tag: 'td', html: 'I am {name}, {age} years old.'},
+                    {tag: 'td', html: '<Button>View</Button>'}
+                ]
+            });
+
+
+            template.append('template', {name: 'alvar', age: '18'});
+
+        })
+    </script>
+</head>
+<body>
+<div id="test1"></div>
+<div id="test2"></div>
+</body>
+</html>

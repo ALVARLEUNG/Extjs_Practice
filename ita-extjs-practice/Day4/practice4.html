@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>practice4</title>
+    <link href="../../resources/css/ext-all.css" rel="stylesheet" type="text/css"/>
+    <script src="../../adapter/ext/ext-base.js" type="text/javascript"></script>
+    <script src="../../ext-all.js" type="text/javascript"></script>
+    <script>
+        Ext.onReady(function () {
+            var task1 = new Ext.util.DelayedTask(function () {
+                alert('Look at this: ' + Ext.util.Format.date(new Date(), 'Y-m-d'));
+            });
+            task1.delay(3000);
+
+            var task2 = {
+                run: function () {
+                    Ext.fly('clock').update(Ext.util.Format.date(new Date(), 'g:i:s A'));
+                },
+                interval: 1000
+            };
+            new Ext.util.TaskRunner().start(task2);
+
+        })
+    </script>
+</head>
+<body>
+<div id="clock"></div>
+</body>
+</html>

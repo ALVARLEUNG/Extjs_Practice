@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>practice1</title>
+    <link href="../../resources/css/ext-all.css" rel="stylesheet" type="text/css"/>
+    <script src="../../adapter/ext/ext-base.js" type="text/javascript"></script>
+    <script src="../../ext-all.js" type="text/javascript"></script>
+    <script>
+        Ext.onReady(function () {
+            var menuItem1 = new Ext.menu.Item({text: 'add'});
+            var menuItem2 = new Ext.menu.Item({text: 'update'});
+            var menuItem3 = new Ext.menu.CheckItem({
+                text: 'checkWidth',
+                checked: true,
+                checkHandler: function (item, checked) {
+                    Ext.Msg.alert('alert', item.text);
+                }
+            });
+            var menuItem4 = new Ext.menu.CheckItem({
+                text: 'checkSize',
+                group: 'size',
+                checkHandler: function (item, checked) {
+                    Ext.Msg.alert('alert', item.text);
+                }
+            });
+            var menuItem5 = new Ext.menu.CheckItem({
+                text: 'checkSize',
+                group: 'size',
+                checkHandler: function (item, checked) {
+                    Ext.Msg.alert('alert', item.text);
+                }
+            });
+            var menu = new Ext.menu.Menu({
+                items: [menuItem1,
+                    // '-',
+                    // new Ext.menu.Separator,
+                    menuItem2, menuItem3, menuItem4, menuItem5]
+            });
+
+            var dateMenu = new Ext.menu.DateMenu({
+                handler: function (picker , date) {
+                    Ext.Msg.alert('date', date.format('Y-m-d'));
+                }
+            });
+
+            var colorMenu = new Ext.menu.ColorMenu({
+                handler: function (palette  , color ) {
+                    Ext.Msg.alert('color', color );
+                }
+            });
+
+            // menu.add('separator');
+            // menu.add({xtype: 'menuseparator'});
+            var toolbar = new Ext.Toolbar({
+                renderTo: document.body,
+                width: 600,
+                items: [
+                    {text: 'File'},
+                    {xtype: 'tbspacer', width: 20,},
+                    '-',
+                    '->',
+                    {xtype: 'splitbutton', text: 'Home'},
+                    {text: 'operations', menu: menu},
+                    {text: 'dateMenu', menu: dateMenu},
+                    {text: 'colorMenu', menu: colorMenu}
+                ]
+            });
+
+            Ext.get(document).on('menu', function(e){
+                e.preventDefault();
+                menu.showAt(e.getXY());
+            });
+
+
+        })
+    </script>
+</head>
+<body>
+
+</body>
+</html>
