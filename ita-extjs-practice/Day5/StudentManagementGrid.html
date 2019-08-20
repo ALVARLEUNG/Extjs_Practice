@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>StudentManagementGrid</title>
+    <link href="../../resources/css/ext-all.css" rel="stylesheet" type="text/css"/>
+    <script src="../../adapter/ext/ext-base.js" type="text/javascript"></script>
+    <script src="../../ext-all.js" type="text/javascript"></script>
+    <script src="../../js/PagingMemoryProxy.js" type="text/javascript"></script>
+    <script>
+        Ext.onReady(function () {
+            let selectionModel = new Ext.grid.CheckboxSelectionModel({handleMouseDown: Ext.emptyFn});
+            let columnModel = new Ext.grid.ColumnModel([
+                new Ext.grid.RowNumberer(),
+                selectionModel,
+                {
+                    header: 'name',
+                    dataIndex: 'name',
+                    sortable: true,
+                    editor: new Ext.grid.GridEditor(
+                        new Ext.form.TextField({
+                            allowBlank: false
+                        })
+                    )
+                },
+                {
+                    header: 'class',
+                    dataIndex: 'class',
+                    sortable: true,
+                    editor: new Ext.grid.GridEditor(
+                        new Ext.form.TextField({
+                            allowBlank: false
+                        })
+                    ),
+                },
+                {
+                    header: 'sex',
+                    dataIndex: 'sex',
+                    editor: new Ext.grid.GridEditor(
+                        new Ext.form.TextField({
+                            allowBlank: false
+                        })
+                    ),
+                },
+                {
+                    header: 'age',
+                    dataIndex: 'age',
+                    editor: new Ext.grid.GridEditor(
+                        new Ext.form.TextField({
+                            allowBlank: false
+                        })
+                    ),
+                },
+                {
+                    header: 'birthday',
+                    dataIndex: 'birthday',
+                    editor: new Ext.grid.GridEditor(
+                        new Ext.form.TextField({
+                            allowBlank: false
+                        })
+                    ),
+                }
+            ]);
+
+            let data = [
+                ['name1', 'class1', 'male', 18, '1996-01-15T02:58:04'],
+                ['name2', 'class2', 'female', 19, '1996-01-10T02:58:04'],
+                ['name3', 'class3', 'male', 20, '1996-01-15T02:58:04']
+            ];
+            let StudentRecord = Ext.data.Record.create([
+                {name: 'name', type: 'string'},
+                {name: 'class', type: 'string'},
+                {name: 'sex', type: 'string'},
+                {name: 'age', type: 'number'},
+                {name: 'birthday', type: 'date'}
+            ]);
+
+            let store = new Ext.data.GroupingStore({
+                proxy: new Ext.data.PagingMemoryProxy(data),
+                reader: new Ext.data.ArrayReader({}, [
+                    {name: 'name'},
+                    {name: 'class'},
+                    {name: 'sex'},
+                    {name: 'age'},
+                    {name: 'birthday', type: 'date', dateFormat: 'Y-m-dTH:i:s'}
+                ]),
+                groupField: 'class',
+                sortInfo: {field: 'sex', direction: 'ASC'}
+            });
+            store.load({params: {start: 0, limit: 5}});
+
+            let studentToolBar = new Ext.Toolbar(['-', {
+                text: 'Add',
+                click: function () {
+                    let model = studentGrid.getSelectionModel();
+                    let selections = model.getSelections();
+                    let newRecord = new StudentRecord({
+                        name: '',
+                        class: '',
+                        sex: '',
+                        age: '',
+                        birthday: ''
+                    });
+                    if (selections.length > 1) {
+                        store.insert(store.data.length, newRecord);
+                    } else if (selections.length === 1) {
+                        store.insert(store.indexOf(selections[0]), newRecord);
+                    } else {
+                        store.insert(0, newRecord);
+                    }
+                    studentGrid.stopEditing();
+                    studentGrid.startEditing(0, 0);
+                    studentGrid.getView().refresh();
+                }
+            }, '-', {
+                text: 'Delete',
+                click: function () {
+                    Ext.Msg.confirm('alert', 'Are you sure delete？', function (btn) {
+                        if (btn == 'yes') {
+                            let model = studentGrid.getSelectionModel();
+                            let selections = model.getSelections();
+                            selections.forEach(item => {
+                                store.remove(store.getById(item.id));
+                            });
+                        }
+                    });
+                }
+            }, '-']);
+
+            let upItem = new Ext.menu.Item({
+                text: 'Up',
+                disable: true,
+                handler: function () {
+                    let record = studentGrid.getSelectionModel().getSelections();
+                    let index = store.indexOf(record[0]);
+                    if (index === 0) return false;
+                    store.remove(record);
+                    store.insert(index - 1, record);
+                    studentGrid.getView().refresh();
+
+                }
+            });
+
+            let downItem = new Ext.menu.Item({
+                text: 'Down',
+                handler: function () {
+                    let record = studentGrid.getSelectionModel().getSelections();
+                    let index = store.indexOf(record[0]);
+                    if (index === (store.getCount() - 1)) return false;
+                    store.remove(record);
+                    store.insert(index + 1, record);
+                    studentGrid.getView().refresh();
+                }
+            });
+
+            let firstItem = new Ext.menu.Item({
+                text: 'First',
+                handler: function () {
+                    let record = studentGrid.getSelectionModel().getSelections();
+                    store.remove(record);
+                    store.insert(0, record);
+                    studentGrid.getView().refresh();
+                }
+            });
+
+            let lastItem = new Ext.menu.Item({
+                text: 'Last',
+                handler: function () {
+                    let record = studentGrid.getSelectionModel().getSelections();
+                    store.remove(record);
+                    store.insert(store.getCount(), record);
+                    studentGrid.getView().refresh();
+                }
+            });
+
+            let contextmenu = new Ext.menu.Menu({
+                id: 'theContextMenu',
+                items: [upItem, downItem, firstItem, lastItem]
+            });
+
+            let studentGrid = new Ext.grid.EditorGridPanel({
+                renderTo: 'studentGrid',
+                width: 700,
+                style: 'margin-left:500px',
+                autoHeight: true,
+                store: store,
+                cm: columnModel,
+                sm: selectionModel,
+                view: new Ext.grid.GroupingView(),
+                bbar: new Ext.PagingToolbar({
+                    pageSize: 5,
+                    store: store,
+                    displayInfo: true,
+                    displayMsg: '显示第 {0} 条到 {1} 条记录，一共 {2} 条',
+                    emptyMsg: "没有记录"
+                }),
+                tbar: studentToolBar,
+                listeners: {
+                    rowcontextmenu: function (grid, rowIndex, e) {
+                        e.preventDefault();
+                        grid.getSelectionModel().selectRow(rowIndex);
+                        contextmenu.showAt(e.getXY());
+                    }
+                }
+            });
+
+        })
+    </script>
+</head>
+<body>
+<div id="studentGrid"></div>
+</body>
+</html>
